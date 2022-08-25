@@ -15,3 +15,5 @@ In the application, our model evaluates both personal preferences and health fac
 </p><br/>
 
 <img src="model.png">
+
+Data: <a href="https://www.kaggle.com/datasets/elisaxxygao/foodrecsysv1?resource=download&select=core-data_recipe.csv">foodRecSys</a>
