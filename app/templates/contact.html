@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Health-Aware Recipe Recommendation</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/bootstrap-icons.css" rel="stylesheet">
+    <link href="static/css/health-aware.css" rel="stylesheet">
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg bg-white shadow-lg">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <a class="navbar-brand" href="/">
+            Health-Aware Recipe RecSys
+        </a>
+
+        <div class="d-lg-none">
+            <button style="margin-right: 10px;" type="button" class="custom-btn btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#RegisterModal">Register
+            </button>
+            <button type="button" class="custom-btn btn btn-dark" data-bs-toggle="modal" data-bs-target="#LoginModal">
+                Login
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="story">Story</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="recipes">Recipes</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+
+        {% if first_name == '#' %}
+        <div class="d-none d-lg-block">
+            <button style="margin-right: 10px;" type="button" class="custom-btn btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#RegisterModal">Register
+            </button>
+            <button type="button" class="custom-btn btn btn-dark" data-bs-toggle="modal" data-bs-target="#LoginModal">
+                Login
+            </button>
+        </div>
+        {% else %}
+        <div>
+            <form action="{{ url_for('LogOut') }}" method="post">
+                <b>{{first_name}}</b>
+                <button style="margin-left:10px" type="submit" class="custom-btn btn btn-dark">Logout</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</nav>
+
+<main>
+    <header class="site-header site-contact-header">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-10 col-12 mx-auto">
+                    <h1 class="text-white">Say Hi</h1>
+                    <strong class="text-white">We are happy to get in touch with you</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="overlay"></div>
+    </header>
+
+    <section class="contact section-padding">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12">
+                    <h2 class="mb-4">Leave a message</h2>
+                </div>
+
+                <div class="col-lg-6 col-12">
+                    <form class="custom-form contact-form row" action="" method="post" role="form">
+                        <div class="col-lg-6 col-6">
+                            <label for="contact-name" class="form-label">Full Name</label>
+
+                            <input type="text" name="contact-name" id="contact-name" class="form-control"
+                                   placeholder="Your Name" required>
+                        </div>
+
+                        <div class="col-lg-6 col-6">
+                            <label for="contact-phone" class="form-label">Subject</label>
+
+                            <input type="telephone" name="contact-phone" id="contact-phone" class="form-control"
+                                   placeholder="Your Subject">
+                        </div>
+
+                        <div class="col-12">
+                            <label for="contact-email" class="form-label">Email</label>
+
+                            <input type="email" name="contact-email" id="contact-email" pattern="[^ @]*@[^ @]*"
+                                   class="form-control" placeholder="Your Email" required="">
+
+                            <label for="contact-message" class="form-label">Message</label>
+
+                            <textarea class="form-control" rows="5" id="contact-message" name="contact-message"
+                                      placeholder="Your Message"></textarea>
+                        </div>
+
+                        <div class="col-lg-5 col-12 ms-auto">
+                            <button type="submit" class="form-control">Send</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-lg-4 col-12 mx-auto mt-lg-5 mt-4">
+                    <div class="container">
+                        <div class="col-12">
+                            <img src="static/images/ozyegin-universitesi-logo.png" class="text-center mb-lg-5 mb-4" ,
+                                 alt="" width="" , height="200px">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="site-footer section-padding">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="text-white">Ozyegin University</h4>
+            </div>
+
+            <div class="col-lg-4 col-md-7 col-xs-12 tooplate-mt30">
+                <h6 class="text-white mb-lg-4 mb-3">Location</h6>
+                <p>Nişantepe, Orman Sk. No:13, 34794 Çekmeköy İstanbul, Turkey</p>
+                <a href="https://goo.gl/maps/5zE7FrMAAmM4Um6Q9" class="custom-btn btn btn-dark mt-2">Directions</a>
+            </div>
+
+            <div class="col-lg-4 col-md-5 col-xs-12 tooplate-mt30"></div>
+
+            <div class="col-lg-4 col-md-6 col-xs-12 tooplate-mt30">
+                <h6 class="text-white mb-lg-4 mb-3">Social</h6>
+
+                <ul class="social-icon">
+                    <li><a href="https://tr-tr.facebook.com/ozyeginuniversitesi/"
+                           class="social-icon-link bi-facebook"></a></li>
+
+                    <li><a href="https://www.instagram.com/ozyeginuni/" class="social-icon-link bi-instagram"></a></li>
+
+                    <li><a href="https://twitter.com/ozyeginuni" target="_blank"
+                           class="social-icon-link bi-twitter"></a></li>
+
+                    <li><a href="https://www.youtube.com/c/ozyeginuni" class="social-icon-link bi-youtube"></a></li>
+                </ul>
+
+                <p class="copyright-text tooplate-mt30">OzU Senior Project
+                    <br><a> Health-Aware Recipe Recommendation</a></p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- Modal -->
+<div class="modal fade" id="RegisterModal" tabindex="-1" aria-labelledby="RegisterModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="mb-0">Register</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body d-flex flex-column justify-content-center">
+                <div class="booking">
+
+                    <form class="booking-form row" role="form" action="{{url_for('Index')}}" method="post">
+                        <div class="col-lg-6 col-12">
+                            <label for="fname" class="form-label">Fist Name</label>
+
+                            <input type="text" name="first_name" id="fname" class="form-control"
+                                   placeholder="Your First Name" required>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <label for="lname" class="form-label">Last Name</label>
+
+                            <input type="text" name="last_name" id="lname" class="form-control"
+                                   placeholder="Your Last Name" required>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <label for="email" class="form-label">Email Address</label>
+
+                            <input type="email" name="e_mail" id="email" pattern="[^ @]*@[^ @]*" class="form-control"
+                                   placeholder="your@email.com" required>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <label for="password" class="form-label">Password</label>
+
+                            <input type="password" name="password" id="password" class="form-control"
+                                   placeholder="Your Password" required>
+                        </div>
+
+                        <div class="col-lg-4 col-12 ms-auto">
+                            <button type="submit" class="form-control">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer"></div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="LoginModal" tabindex="-1" aria-labelledby="LoginModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="mb-0">Login</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body d-flex flex-column justify-content-center">
+                <div class="booking">
+
+                    <form class="booking-form row" role="form" action="{{url_for('Index')}}" method="post">
+
+                        <div class="col-lg-6 col-12">
+                            <label for="email" class="form-label">Email Address</label>
+
+                            <input type="email" name="e_mail" id="email" pattern="[^ @]*@[^ @]*" class="form-control"
+                                   placeholder="your@email.com" required>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <label for="password" class="form-label">Password</label>
+
+                            <input type="password" name="password" id="password" class="form-control"
+                                   placeholder="Your Password" required>
+                        </div>
+
+                        <div class="col-lg-4 col-12 ms-auto">
+                            <button type="submit" class="form-control">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer"></div>
+
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT FILES -->
+<script src="static/js/jquery.min.js"></script>
+<script src="static/js/bootstrap.bundle.min.js"></script>
+<script src="static/js/custom.js"></script>
+
+</body>
+</html>

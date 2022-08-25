@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block body_content %}
+
+<section class="menu section-padding">
+    <form action="" method="post">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12">
+                    <h2 class="text-center mb-lg-5 mb-4">Survey Result</h2>
+                </div>
+
+                <div>
+                    <p>avg. weight: {{items_weight_mean}}</p>
+                    <p>avg. height: {{items_height_mean}}</p>
+                    <p>min age: {{age_min}}</p>
+                    <p>max age: {{age_max}}</p>
+                    <p>#men: {{n_men}}</p>
+                    <p>#women: {{n_female}}</p>
+                    <p>#diseases: {{n_disease}}</p>
+                    <p>mode level: {{mode_level}}</p>
+
+                    {% for result in survey_results %}
+                    <p>
+                        {{result}}
+                    </p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+{% endblock %}
+

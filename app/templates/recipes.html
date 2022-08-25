@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Health-Aware Recipe Recommendation</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/bootstrap-icons.css" rel="stylesheet">
+    <link href="static/css/health-aware.css" rel="stylesheet">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg bg-white shadow-lg">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <a class="navbar-brand" href="/">
+            Health-Aware Recipe RecSys
+        </a>
+
+        <div class="d-lg-none">
+            <button style="margin-right: 10px;" type="button" class="custom-btn btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#RegisterModal">Register
+            </button>
+            <button type="button" class="custom-btn btn btn-dark" data-bs-toggle="modal" data-bs-target="#LoginModal">
+                Login
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="story">Story</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="recipes">Recipes</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+
+        {% if first_name == '#' %}
+        <div class="d-none d-lg-block">
+            <button style="margin-right: 10px;" type="button" class="custom-btn btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#RegisterModal">Register
+            </button>
+            <button type="button" class="custom-btn btn btn-dark" data-bs-toggle="modal" data-bs-target="#LoginModal">
+                Login
+            </button>
+        </div>
+        {% else %}
+        <div>
+            <form action="{{ url_for('LogOut') }}" method="post">
+                <b>{{first_name}}</b>
+                <button style="margin-left:10px" type="submit" class="custom-btn btn btn-dark">Logout</button>
+            </form>
+        </div>
+        {% endif %}
+
+    </div>
+</nav>
+<section class="menu section-padding">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12">
+                <h2 class="text-center mb-lg-5 mb-4"> Recipes</h2>
+            </div>
+
+
+            {% set list_total = [item, cal, recipename, rate, star, review, range(item|length)] %}
+            {% set final_list = [] %}
+            {% for i in range(item|length) %}
+            {% set temp_list = [] %}
+            {% for list in list_total %}
+            {{ temp_list.append(list[i]) or "" }}
+            {% endfor %}
+            {{ final_list.append(temp_list) or "" }}
+            {% set temp_list = [] %}
+            {% endfor %}
+
+            {% for url, calorie, name, rate, star_count, review, i in final_list %}
+
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="menu-thumb">
+                    <div class="menu-image-wrap">
+                        <img src="{{url}}" class="img-fluid menu-image" data-bs-toggle="modal" data-bs-target="#m{{i}}"
+                             alt="" width="400px" height="250px"/>
+                        <span class="menu-tag bg-warning ms-4" data-bs-toggle="modal" data-bs-target="#m{{i}}"><small>cal </small>{{calorie}}</span>
+
+                    </div>
+
+                    <div class="menu-info d-flex flex-wrap align-items-center w-100 mt-2">
+                        <h4 class="mb-0">{{name}}</h4>
+
+                        <div class="d-flex flex-wrap align-items-center w-100 mt-2">
+                            <h6 class="reviews-text mb-0 me-3">{{rate}}/5</h6>
+
+                            <div class="reviews-stars">
+                                {% for i in range(star_count) %}
+                                <i class="bi-star-fill reviews-icon"></i>
+                                {% endfor %}
+                            </div>
+
+                            <p class="reviews-text mb-0 ms-4">{{review}} Reviews</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+<!-- Modal -->
+<div class="modal fade" id="RegisterModal" tabindex="-1" aria-labelledby="RegisterModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="mb-0">Register</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body d-flex flex-column justify-content-center">
+                <div class="booking">
+
+                    <form class="booking-form row" role="form" action="{{url_for('Index')}}" method="post">
+                        <div class="col-lg-6 col-12">
+                            <label for="fname" class="form-label">Fist Name</label>
+
+                            <input type="text" name="first_name" id="fname" class="form-control"
+                                   placeholder="Your First Name" required>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <label for="lname" class="form-label">Last Name</label>
+
+                            <input type="text" name="last_name" id="lname" class="form-control"
+                                   placeholder="Your Last Name" required>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <label for="email" class="form-label">Email Address</label>
+
+                            <input type="email" name="e_mail" id="email" pattern="[^ @]*@[^ @]*" class="form-control"
+                                   placeholder="your@email.com" required>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <label for="password" class="form-label">Password</label>
+
+                            <input type="password" name="password" id="password" class="form-control"
+                                   placeholder="Your Password" required>
+                        </div>
+
+                        <div class="col-lg-4 col-12 ms-auto">
+                            <button type="submit" class="form-control">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer"></div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="LoginModal" tabindex="-1" aria-labelledby="LoginModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="mb-0">Login</h3>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body d-flex flex-column justify-content-center">
+                <div class="booking">
+
+                    <form class="booking-form row" role="form" action="{{url_for('Index')}}" method="post">
+
+                        <div class="col-lg-6 col-12">
+                            <label for="email" class="form-label">Email Address</label>
+
+                            <input type="email" name="e_mail" id="email" pattern="[^ @]*@[^ @]*" class="form-control"
+                                   placeholder="your@email.com" required>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <label for="password" class="form-label">Password</label>
+
+                            <input type="password" name="password" id="password" class="form-control"
+                                   placeholder="Your Password" required>
+                        </div>
+
+                        <div class="col-lg-4 col-12 ms-auto">
+                            <button type="submit" class="form-control">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer"></div>
+
+        </div>
+    </div>
+</div>
+
+
+{% set modal_list_total = [prep, cook, ready_in, direction, ingredient, niacins, sodium, carbohydrates, vitamin_B6,
+calories, thiamin, fat, folate, calcium, cholesterol, fiber, iron, magnesium, potassium, protein, saturatedfat,
+vitaminA, vitaminC, range(prep|length)] %}
+{% set modal_final_list = [] %}
+{% for i in range(prep|length) %}
+{% set modal_temp_list = [] %}
+{% for list in modal_list_total %}
+{{ modal_temp_list.append(list[i]) or "" }}
+{% endfor %}
+{{ modal_final_list.append(modal_temp_list) or "" }}
+{% set modal_temp_list = [] %}
+{% endfor %}
+
+
+{% for prep, cook, ready_in, direction, ingredient, niacins, sodium, carbohydrates, vitamin_B6, calories, thiamin, fat,
+folate, calcium, cholesterol, fiber, iron, magnesium, potassium, protein, saturatedfat, vitaminA, vitaminC, i in
+modal_final_list %}
+<div class="modal fade" id="m{{i}}" tabindex="-1" aria-labelledby="m{{i}}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="mb-0">Info</h3>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body d-flex flex-column justify-content-center">
+                <div class="booking">
+
+                    <form class="booking-form2 row" role="form" action="" method="post">
+                        <div class="col-lg-6 col-12">
+
+                            <h4 class="form-label2">Durations</h4>
+                            <label for="" class="form-label">Prep: {{prep}}m</label>
+                            <label for="" class="form-label">Cook: {{cook}}m</label>
+                            <label for="" class="form-label">Ready in: {{ready_in}}m</label>
+
+                            <h4 class="form-label2">Directions</h4>
+                            <label for="" class="form-label">{{direction}}</label>
+
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <h4 class="form-label2">Ingredients</h4>
+                            <label for="form-label"> {{ingredient}} </label>
+
+                            <h4 class="form-label2">Nutrition Facts (% Daily Value)</h4>
+
+                            <table>
+                                <tr>
+                                    <td><label for="" class="">Niacins:</label></td>
+                                    <td><label for="" class="">{{niacins}} %</label></td>
+
+                                    <td><label for="" class="">Sodium:</label></td>
+                                    <td><label for="" class="">{{sodium}} %</label></td>
+
+                                    <td><label for="" class="">Carbohydrates:</label></td>
+                                    <td><label for="" class="">{{carbohydrates}} %</label></td>
+
+                                </tr>
+                                <tr>
+                                    <td><label for="" class="">Vitamin_B6:</label></td>
+                                    <td><label for="" class="">{{vitamin_B6}} %</label></td>
+
+                                    <td><label for="" class="">Calories:</label></td>
+                                    <td><label for="" class="">{{calories}} </label></td>
+
+                                    <td><label for="" class="">Thiamin:</label></td>
+                                    <td><label for="" class="">{{thiamin}} %</label></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="" class="">Fat:</label></td>
+                                    <td><label for="" class="">{{fat}} %</label></td>
+
+                                    <td><label for="" class="">Folate:</label></td>
+                                    <td><label for="" class="">{{folate}} %</label></td>
+
+                                    <td><label for="" class="">Calcium:</label></td>
+                                    <td><label for="" class="">{{calcium}} %</label></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="" class="">Cholesterol:</label></td>
+                                    <td><label for="" class="">{{cholesterol}} %</label></td>
+
+                                    <td><label for="" class="">Fiber:</label></td>
+                                    <td><label for="" class="">{{fiber}} %</label></td>
+
+                                    <td><label for="" class="">Iron:</label></td>
+                                    <td><label for="" class="">{{iron}} %</label></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="" class="">Magnesium:</label></td>
+                                    <td><label for="" class="">{{magnesium}} %</label></td>
+
+                                    <td><label for="" class="">Potassium:</label></td>
+                                    <td><label for="" class="">{{potassium}} %</label></td>
+
+                                    <td><label for="" class="">Protein:</label></td>
+                                    <td><label for="" class="">{{protein}} %</label></td>
+                                </tr>
+                                <tr>
+
+                                    <td><label for="" class="">Saturatedfat:</label></td>
+                                    <td><label for="" class="">{{saturatedfat}} %</label></td>
+
+                                    <td><label for="" class="">VitaminA:</label></td>
+                                    <td><label for="" class="">{{vitaminA}} %</label></td>
+
+                                    <td><label for="" class="">VitaminC:</label></td>
+                                    <td><label for="" class="">{{vitaminC}} %</label></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+<!-- JAVASCRIPT FILES -->
+<script src="static/js/jquery.min.js"></script>
+<script src="static/js/bootstrap.bundle.min.js"></script>
+<script src="static/js/custom.js"></script>
+
+</body>
+</html>

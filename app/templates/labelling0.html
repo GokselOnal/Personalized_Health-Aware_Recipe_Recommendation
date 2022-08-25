@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block body_content %}
+
+<section class="menu section-padding">
+    <form action="" method="post">
+        <div class="container">
+            <div class="row">
+
+                <h6 class="text-center"> Select your favorite recipes (try selecting at least <b>3</b>)</h6>
+                <h6 class="text-center"> You can reach the detailed information about the recipes by clicking the orange
+                    calorie box</h6>
+                <div class="col-12">
+                    <h2 class="text-center mb-lg-5 mb-4"> Recipes</h2>
+                </div>
+
+                {% set list_total = [idx_, item, cal, recipename, rate, star, review, range(item|length)] %}
+                {% set final_list = [] %}
+                {% for i in range(item|length) %}
+                {% set temp_list = [] %}
+                {% for list in list_total %}
+                {{ temp_list.append(list[i]) or "" }}
+                {% endfor %}
+                {{ final_list.append(temp_list) or "" }}
+                {% set temp_list = [] %}
+                {% endfor %}
+
+                {% for index_img, url, calorie, name, rate, star_count, review, i in final_list %}
+
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="menu-thumb">
+                        <div class="menu-image-wrap">
+                            <input type="checkbox" id="cb{{i}}" name="checkbox0" value="{{index_img}}"/>
+                            <label for="cb{{i}}"><img src="{{url}}" class="menu-image" alt="" width="400px"
+                                                      height="250px"/></label>
+                            <span class="menu-tag bg-warning ms-4" data-bs-toggle="modal"
+                                  data-bs-target="#m{{i}}"><small>cal </small>{{calorie}}</span>
+                        </div>
+
+                        <div class="menu-info d-flex flex-wrap align-items-center w-100 mt-2">
+                            <h4 class="mb-0">{{name}}</h4>
+
+                            <div class="d-flex flex-wrap align-items-center w-100 mt-2">
+                                <h6 class="reviews-text mb-0 me-3">{{rate}}/5</h6>
+
+                                <div class="reviews-stars">
+                                    {% for i in range(star_count) %}
+                                    <i class="bi-star-fill reviews-icon"></i>
+                                    {% endfor %}
+                                </div>
+
+                                <p class="reviews-text mb-0 ms-4">{{review}} Reviews</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <div class="col-lg-12 col-12 ms-auto">
+                    <button type="submit" class="custom-btn btn btn-danger" class="form-control">Submit</button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</section>
+
+
+{% set modal_list_total = [prep, cook, ready_in, direction, ingredient, niacins, sodium, carbohydrates, vitamin_B6, calories, thiamin, fat, folate, calcium, cholesterol, fiber, iron, magnesium, potassium, protein, saturatedfat, vitaminA, vitaminC, range(prep|length)] %}
+{% set modal_final_list = [] %}
+{% for i in range(prep|length) %}
+{% set modal_temp_list = [] %}
+{% for list in modal_list_total %}
+{{ modal_temp_list.append(list[i]) or "" }}
+{% endfor %}
+{{ modal_final_list.append(modal_temp_list) or "" }}
+{% set modal_temp_list = [] %}
+{% endfor %}
+
+{% for prep, cook, ready_in, direction, ingredient, niacins, sodium, carbohydrates, vitamin_B6, calories, thiamin, fat, folate, calcium, cholesterol, fiber, iron, magnesium, potassium, protein, saturatedfat, vitaminA, vitaminC, i in modal_final_list %}
+<div class="modal fade" id="m{{i}}" tabindex="-1" aria-labelledby="m{{i}}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="mb-0">Info</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body d-flex flex-column justify-content-center">
+                <div class="booking">
+
+                    <form class="booking-form2 row" role="form" action="" method="post">
+
+                        <div class="col-lg-6 col-12">
+                            <h4 class="form-label2">Durations</h4>
+                            <label for="" class="form-label">Prep: {{prep}}m</label>
+                            <label for="" class="form-label">Cook: {{cook}}m</label>
+                            <label for="" class="form-label">Ready in: {{ready_in}}m</label>
+
+                            <h4 class="form-label2">Directions</h4>
+                            <label for="" class="form-label">{{direction}}</label>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <h4 class="form-label2">Ingredients</h4>
+                            <label for="form-label"> {{ingredient}} </label>
+                            <h4 class="form-label2">Nutrition Facts (% Daily Value)</h4>
+
+                            <table>
+                                <tr>
+                                    <td><label for="" class="">Niacins:</label></td>
+                                    <td><label for="" class="">{{niacins}} %</label></td>
+
+                                    <td><label for="" class="">Sodium:</label></td>
+                                    <td><label for="" class="">{{sodium}} %</label></td>
+
+                                    <td><label for="" class="">Carbohydrates:</label></td>
+                                    <td><label for="" class="">{{carbohydrates}} %</label></td>
+
+                                </tr>
+                                <tr>
+                                    <td><label for="" class="">Vitamin_B6:</label></td>
+                                    <td><label for="" class="">{{vitamin_B6}} %</label></td>
+
+                                    <td><label for="" class="">Calories:</label></td>
+                                    <td><label for="" class="">{{calories}} </label></td>
+
+                                    <td><label for="" class="">Thiamin:</label></td>
+                                    <td><label for="" class="">{{thiamin}} %</label></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="" class="">Fat:</label></td>
+                                    <td><label for="" class="">{{fat}} %</label></td>
+
+                                    <td><label for="" class="">Folate:</label></td>
+                                    <td><label for="" class="">{{folate}} %</label></td>
+
+                                    <td><label for="" class="">Calcium:</label></td>
+                                    <td><label for="" class="">{{calcium}} %</label></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="" class="">Cholesterol:</label></td>
+                                    <td><label for="" class="">{{cholesterol}} %</label></td>
+
+                                    <td><label for="" class="">Fiber:</label></td>
+                                    <td><label for="" class="">{{fiber}} %</label></td>
+
+                                    <td><label for="" class="">Iron:</label></td>
+                                    <td><label for="" class="">{{iron}} %</label></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="" class="">Magnesium:</label></td>
+                                    <td><label for="" class="">{{magnesium}} %</label></td>
+
+                                    <td><label for="" class="">Potassium:</label></td>
+                                    <td><label for="" class="">{{potassium}} %</label></td>
+
+                                    <td><label for="" class="">Protein:</label></td>
+                                    <td><label for="" class="">{{protein}} %</label></td>
+                                </tr>
+                                <tr>
+
+                                    <td><label for="" class="">Saturatedfat:</label></td>
+                                    <td><label for="" class="">{{saturatedfat}} %</label></td>
+
+                                    <td><label for="" class="">VitaminA:</label></td>
+                                    <td><label for="" class="">{{vitaminA}} %</label></td>
+
+                                    <td><label for="" class="">VitaminC:</label></td>
+                                    <td><label for="" class="">{{vitaminC}} %</label></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+{% endblock %}
+
+
